@@ -1,0 +1,38 @@
+version: '2.1'
+
+networks:
+
+    gonet: {}
+
+services: 
+
+    goweb: 
+        image: we-rise-small
+        ports:
+            - 80:80
+        networks: 
+            - gonet
+
+    gosvc: 
+        image: we-rise-svc
+        ports:
+            - 8080
+        networks: 
+            - gonet 
+
+    proxy:
+        image: dockercloud/haproxy
+        depends_on: 
+            - gosvc 
+        ports: 
+            - 8080:80
+        links:
+            - gosvc
+        networks:
+            - gonet
+        environment:
+            - DOCKER_TLS_VERIFY
+            - DOCKER_HOST 
+            - DOCKER_CERT_PATH 
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
