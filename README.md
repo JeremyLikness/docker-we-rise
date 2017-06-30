@@ -66,9 +66,13 @@ Be sure to stop and remove your containers to clean up!
 
 ### Fifth Step: Go Small 
 
-This step requires [installing Go](https://golang.org/dl/). There is a provided script in `03-Hello-Small-Go-Small` that will build the Go binary, then use the Dockerfile to create a small image by using the [scratch](https://hub.docker.com/_/scratch/) image which is empty, then adding the Go binary. You can see after running the script from a bash shell (if you are on Windows you can use the one that comes with [git](https://git-scm.com/downloads)) like this: `./gobuild.sh`
+There are two ways to "go small." The first, if you are running version 17.05 or later, is to use the multi-stage build. Run:
 
-That it does the same thing, only check out the size of the new service:
+`docker build -t we-rise-svc -f Dockerfile.multi .` 
+
+If you have an older version of Docker, you can build locally. This step requires [installing Go](https://golang.org/dl/). There is a provided script in `03-Hello-Small-Go-Small` that will build the Go binary, then use the Dockerfile to create a small image by using the [scratch](https://hub.docker.com/_/scratch/) image which is empty, then adding the Go binary. You can see after running the script from a bash shell (if you are on Windows you can use the one that comes with [git](https://git-scm.com/downloads)) like this: `./gobuild.sh`
+
+After either approach, you can check out the size of the new service:
 
 `docker ps | grep "we-rise-svc"` 
 
